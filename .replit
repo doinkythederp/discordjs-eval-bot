@@ -1,1 +1,1 @@
-run="git reset --hard --quiet; sh main.sh"
+run="sh main.sh"
