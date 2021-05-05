@@ -122,7 +122,7 @@ client.on('message', message => {
           'bad code big no no';
       } else {
         try {
-          evl = eval("(async () => {" + func + "})()");
+          evl = await eval("(async () => {" + func + "})()");
         } catch (e) {
           evl = e;
         }
