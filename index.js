@@ -93,7 +93,7 @@ client.on('message', message => {
     var evalEmbed = new Discord.MessageEmbed()
       .setColor('#000000')
       .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
-      .addField('Output', '```\n' + evl + '\n```')
+      .addField('Output', '```\n' + evl.substr(0, 1024 - 8) + '\n```')
       .setFooter('Time to execute:' + '...');
     message.channel.send(evalEmbed).then(evalmsg => {
       let exetime = evalmsg.createdTimestamp - message.createdTimestamp
