@@ -1,4 +1,9 @@
 while [ true ]; do
 node .
-git reset --hard --quiet;
+# Git reset for security
+rm -rf .git
+git init -q
+git remote add origin https://github.com/doinkythederp/discordjs-eval-bot.git
+git fetch -q
+git reset -q origin/master --hard
 done
