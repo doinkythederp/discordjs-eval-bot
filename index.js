@@ -121,5 +121,5 @@ client.login()
     if (path === "child_process" || path === "node:child_process") throw "bad code big no no";
     return rqr(path);
   });
-  require.toString = r
+  require.toString = rqr.toString
 }
