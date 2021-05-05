@@ -123,8 +123,8 @@ client.login()
       if (path === "child_process" || path === "node:child_process") throw "bad code big no no";
       if (path === "module" || path === "node:module") {
         let md = rqr(path);
-        md.createRequire = (function(path) {
-          return convertRequire(md.createRequire(path));
+        md.createRequire = (function() {
+          throw "bad code big no no";
         });
         return md;
       }
