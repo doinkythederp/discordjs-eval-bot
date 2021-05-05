@@ -107,6 +107,7 @@ client.on('message', message => {
 client.login()
 
 {
+  // doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
   let token = process.env.DISCORD_TOKEN;
   let destroy = client.destroy;
   client.destroy = (function() {
@@ -131,5 +132,5 @@ client.login()
     });
     require.toString = rqr.toString
   }
-
+  require = convertRequire(require);
 }
