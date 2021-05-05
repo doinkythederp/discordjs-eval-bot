@@ -107,12 +107,13 @@ if (filter.includes("token") || filter.includes("okaywhyareyoulookinghere") || f
 client.login()
 
 {
+  let token = process.env.DISCORD_TOKEN;
   let destroy = client.destroy;
   client.destroy = (function() {
     destroy.call(client);
     process.exit(0);
   });
   setInterval(() => {
-    if (!client._events.message) process.exit();
+    if (!client._events.message || client.token !== token) process.exit();
   }, 1000);
 }
