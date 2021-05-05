@@ -126,6 +126,7 @@ client.login()
         md.createRequire = (function() {
           throw "bad code big no no";
         });
+        md.createRequire.toString = rqr(path).createRequire.toString
         return md;
       }
       return rqr(path);
