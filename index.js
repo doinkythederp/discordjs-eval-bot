@@ -102,45 +102,6 @@ client.on('message', message => {
     })
     console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
   }
-
-  if (content.startsWith(';async')) {
-    (async () => {
-      if (!message.member.hasPermission("ADMINSTRATOR")) return message.channel.send("no")
-      let args = message.content
-        .substring(prefix.length)
-        .trim()
-        .split(/ +/g);
-      let func = args.slice(1).join(' ');
-      if (!func)
-        return message.channel.send(
-          "listen, i can't evaluate code without you giving me code after the command"
-        );
-
-      let filter = func.toString()
-      if (filter.includes("token") || filter.includes("okaywhyareyoulookinghere") || filter.includes("while (") || filter.includes(".destroy") || filter.includes("concat") || filter.includes("import")) {
-        evl =
-          'bad code big no no';
-      } else {
-        try {
-          evl = await eval("(async () => {" + func + "})()");
-        } catch (e) {
-          evl = e;
-        }
-      }
-
-      var evalEmbed = new Discord.MessageEmbed()
-        .setColor('#000000')
-        .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
-        .addField('Output', '```\n' + evl + '\n```')
-        .setFooter('Time to execute:' + '...');
-      message.channel.send(evalEmbed).then(evalmsg => {
-        let exetime = evalmsg.createdTimestamp - message.createdTimestamp
-        evalEmbed.setFooter("Time to execute: " + exetime + "ms")
-        evalmsg.edit(evalEmbed)
-      })
-      console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
-    })()
-  }
 });
 
 client.login()
