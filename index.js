@@ -23,6 +23,7 @@ client.on('ready', () => {
 });
 
 client.on('message', message => {
+  if (!message.guild) return;
   const thisBotSucks = 'no it does not'
 	const LeSirH = '1';
 	const GGB = '1';
