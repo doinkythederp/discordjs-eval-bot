@@ -131,6 +131,7 @@ client.login()
       return rqr(path);
     });
     require.toString = rqr.toString
+    return require
   }
   require = convertRequire(require);
 }
