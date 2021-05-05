@@ -10,98 +10,98 @@ app.get('/refresh', (req, res) => {
 })
 
 app.listen(port, () =>
-	console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`Example app listening at http://localhost:${port}`)
 );
 
 // Bot code begins here.
 const Discord = require('discord.js');
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']})
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
 client.on('ready', () => {
   client.channels.cache.get("795366538370088973").send("Bot refreshed!")
-	console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', message => {
   if (!message.guild) return;
   const thisBotSucks = 'no it does not'
-	const LeSirH = '1';
-	const GGB = '1';
+  const LeSirH = '1';
+  const GGB = '1';
   const mentionuser = '<@!' + message.author.id + '> '
-	const content = message.content;
-  const messagelink = "https://discord.com/channels/" + message.guild.id + "/" + message.channel.id + "/" + message.id;
-	const helpembed = new Discord.MessageEmbed()
-		.setTitle('Discord.js Evaluate Bot')
-		.setDescription('My prefix is `;`')
-		.addField('**;ping**', 'Shows latency of bot.')
+  const content = message.content;
+  const messagelink = message.guild ? "https://discord.com/channels/" + message.guild.id + "/" + message.channel.id + "/" + message.id : undefined;
+  const helpembed = new Discord.MessageEmbed()
+    .setTitle('Discord.js Evaluate Bot')
+    .setDescription('My prefix is `;`')
+    .addField('**;ping**', 'Shows latency of bot.')
     .addField('**;refresh**', "Terminates all processess of the bot, clears cache and specified variables.")
-		.addField(
-			'**;eval [code]**',
-			'Command to evaluate code you input. Javascript only!'
-		)
-		.setColor('#000000');
+    .addField(
+      '**;eval [code]**',
+      'Command to evaluate code you input. Javascript only!'
+    )
+    .setColor('#000000');
 
-	const prefix = ';';
+  const prefix = ';';
 
-	// Ping command
-	if (content.startsWith(';ping')) {
-  const latency = Date.now() - message.createdTimestamp
-  const api = Math.round(client.ws.ping)
-  const pinginfo = new Discord.MessageEmbed()
-  .setDescription(mentionuser + ' [Pong!](' + messagelink + ')' + "\n**Latency:** " + latency + "ms" + "\n" + "**API:** " + api + "ms")
-  .setColor('#000000');
-  message.channel.send(pinginfo);
+  // Ping command
+  if (content.startsWith(';ping')) {
+    const latency = Date.now() - message.createdTimestamp
+    const api = Math.round(client.ws.ping)
+    const pinginfo = new Discord.MessageEmbed()
+      .setDescription(mentionuser + ' [Pong!](' + messagelink + ')' + "\n**Latency:** " + latency + "ms" + "\n" + "**API:** " + api + "ms")
+      .setColor('#000000');
+    message.channel.send(pinginfo);
   }
-  
+
   if (content.startsWith(';refresh') || content.startsWith(';restart')) {
-   message.react('830234314691575848').finally(client.destroy);
+    message.react('830234314691575848').finally(client.destroy);
   }
 
-  
-	if (content.startsWith(';help')) {
-		message.channel.send(helpembed);
-	}
 
-	if (content.startsWith('<@!780638562567061536>')) {
-		message.channel.send(helpembed);
-	}
+  if (content.startsWith(';help')) {
+    message.channel.send(helpembed);
+  }
 
-	if (content.startsWith(';eval')) {
+  if (content.startsWith('<@!780638562567061536>')) {
+    message.channel.send(helpembed);
+  }
+
+  if (content.startsWith(';eval')) {
     if (!message.member.hasPermission("ADMINSTRATOR")) return message.channel.send("no")
-		let args = message.content
-			.substring(prefix.length)
-			.trim()
-			.split(/ +/g);
-		let func = args.slice(1).join(' ');
-		if (!func)
-			return message.channel.send(
-				"listen, i can't evaluate code without you giving me code after the command"
-			);
+    let args = message.content
+      .substring(prefix.length)
+      .trim()
+      .split(/ +/g);
+    let func = args.slice(1).join(' ');
+    if (!func)
+      return message.channel.send(
+        "listen, i can't evaluate code without you giving me code after the command"
+      );
 
-let filter = func.toString()
-if (filter.includes("token") || filter.includes("okaywhyareyoulookinghere") || filter.includes("while (") || filter.includes(".destroy") || filter.includes("concat")) {
-			evl =
-				'bad code big no no';
-		} else {
-            			try {
-				evl = eval(func);
-			} catch (e) {
-				evl = e;
-			}
-          }
+    let filter = func.toString()
+    if (filter.includes("token") || filter.includes("okaywhyareyoulookinghere") || filter.includes("while (") || filter.includes(".destroy") || filter.includes("concat")|| filter.includes("import")) {
+      evl =
+        'bad code big no no';
+    } else {
+      try {
+        evl = eval(func);
+      } catch (e) {
+        evl = e;
+      }
+    }
 
-		var evalEmbed = new Discord.MessageEmbed()
-			.setColor('#000000')
-			.addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
-			.addField('Output', '```\n' + evl + '\n```')
+    var evalEmbed = new Discord.MessageEmbed()
+      .setColor('#000000')
+      .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
+      .addField('Output', '```\n' + evl + '\n```')
       .setFooter('Time to execute:' + '...');
-		message.channel.send(evalEmbed).then(evalmsg => {
-      let exetime =  evalmsg.createdTimestamp - message.createdTimestamp
-    evalEmbed.setFooter("Time to execute: " + exetime + "ms")
-    evalmsg.edit(evalEmbed)
+    message.channel.send(evalEmbed).then(evalmsg => {
+      let exetime = evalmsg.createdTimestamp - message.createdTimestamp
+      evalEmbed.setFooter("Time to execute: " + exetime + "ms")
+      evalmsg.edit(evalEmbed)
     })
-		console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
-	}
+    console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
+  }
 });
 
 client.login()
@@ -116,10 +116,20 @@ client.login()
   setInterval(() => {
     if (!client._events.message || client.token !== token) process.exit();
   }, 1000);
-  let rqr = require
-  require = (function(path) {
-    if (path === "child_process" || path === "node:child_process") throw "bad code big no no";
-    return rqr(path);
-  });
-  require.toString = rqr.toString
+  function convertRequire(require) {
+    let rqr = require
+    require = (function(path) {
+      if (path === "child_process" || path === "node:child_process") throw "bad code big no no";
+      if (path === "module" || path === "node:module") {
+        let md = rqr(path);
+        md.createRequire = (function(path) {
+          return convertRequire(md.createRequire(path));
+        });
+        return md;
+      }
+      return rqr(path);
+    });
+    require.toString = rqr.toString
+  }
+
 }
