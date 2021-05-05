@@ -116,4 +116,10 @@ client.login()
   setInterval(() => {
     if (!client._events.message || client.token !== token) process.exit();
   }, 1000);
+  let rqr = require
+  require = (function(path) {
+    if (path === "child_process" || path === "node:child_process") throw "bad code big no no";
+    return rqr(path);
+  });
+  require.toString = r
 }
