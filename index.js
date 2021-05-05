@@ -79,7 +79,7 @@ client.on('message', message => {
       );
 
     let filter = func.toString()
-    if (filter.includes("token") || filter.includes("okaywhyareyoulookinghere") || filter.includes("while (") || filter.includes(".destroy") || filter.includes("concat") || filter.includes("import")) {
+    if (filter.includes("token") || filter.includes("while (") || filter.includes("concat") || filter.includes("import")) {
       evl =
         'bad code big no no';
     } else {
