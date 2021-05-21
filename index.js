@@ -67,7 +67,6 @@ client.on('message', message => {
   }
 
   if (content.startsWith(';eval')) {
-    if (!message.member.hasPermission("ADMINSTRATOR")) return message.channel.send("no")
     let args = message.content
       .substring(prefix.length)
       .trim()
