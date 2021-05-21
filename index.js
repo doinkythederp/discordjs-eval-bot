@@ -5,6 +5,7 @@ const port = 3000;
 
 app.get('/', (req, res) => res.send('The bot now has a server running.<br><a href="/refresh"><button>Refresh</button></a>'));
 app.get('/refresh', (req, res) => {
+  console.log("Restarting from web.");
   res.send("Bot refreshed!<script>setTimeout(() => location.href = '/', 1000);</script>");
   client.destroy();
 })
@@ -54,6 +55,7 @@ client.on('message', message => {
   }
 
   if (content.startsWith(';refresh') || content.startsWith(';restart')) {
+    console.log("Restarting from command.");
     message.react('830234314691575848').finally(client.destroy);
   }
 
@@ -110,6 +112,7 @@ client.login()
   let token = process.env.DISCORD_TOKEN;
   let destroy = client.destroy;
   client.destroy = (function() {
+    console.log("client destroyed!");
     destroy.call(client);
     process.exit(0);
   });
