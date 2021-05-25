@@ -122,7 +122,7 @@ client.login()
   function convertRequire(require) {
     let rqr = require
     require = (function(path) {
-      if (path === "child_process" || path === "node:child_process") throw "bad code big no no";
+      if (path === "child_process" || path === "node:child_process" || path === "node:cluster" || path === "cluster") throw "bad code big no no";
       if (path === "module" || path === "node:module") {
         let md = rqr(path);
         md.createRequire = (function() {
