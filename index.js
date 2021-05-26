@@ -18,12 +18,13 @@ app.listen(port, () =>
 const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
+const asyncEval = require("./worker");
 client.on('ready', () => {
   client.channels.cache.get("795366538370088973").send("Bot refreshed!")
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
   if (!message.guild) return;
   const thisBotSucks = 'no it does not'
   const LeSirH = '1';
@@ -86,6 +87,29 @@ client.on('message', message => {
     } else {
       try {
         evl = eval(func);
+      } catch (e) {
+        evl = e;
+      }
+    }
+
+    if (content.startsWith(';worker')) {
+    let args = message.content
+      .substring(prefix.length)
+      .trim()
+      .split(/ +/g);
+    let func = args.slice(1).join(' ');
+    if (!func)
+      return message.channel.send(
+        "listen, i can't evaluate code without you giving me code after the command"
+      );
+
+    let filter = func.toString()
+    if (filter.includes("token") || filter.includes("while (") || filter.includes("concat") || filter.includes("import")) {
+      evl =
+        'bad code big no no';
+    } else {
+      try {
+        evl = await asyncEval({ code: func, context: global.workerContext || {} });
       } catch (e) {
         evl = e;
       }
