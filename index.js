@@ -140,7 +140,7 @@ client.on('message', async (message) => {
     console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
   }
 });
-
+if (process.env.DEBUG) client.on("debug", console.log);
 client.login()
 
 {
