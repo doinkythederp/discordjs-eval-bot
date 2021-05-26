@@ -24,7 +24,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', async message => {
+client.on('message', async (message) => {
   if (!message.guild) return;
   const thisBotSucks = 'no it does not'
   const LeSirH = '1';
@@ -81,7 +81,7 @@ client.on('message', async message => {
       );
 
     let filter = func.toString()
-    if (filter.includes("token") || filter.includes("while (") || filter.includes("concat") || filter.includes("import")) {
+    if (filter.includes("token") || filter.includes("concat") || filter.includes("import")) {
       evl =
         'bad code big no no';
     } else {
@@ -104,7 +104,7 @@ client.on('message', async message => {
       );
 
     let filter = func.toString()
-    if (filter.includes("token") || filter.includes("while (") || filter.includes("concat") || filter.includes("import")) {
+    if (filter.includes("token") || filter.includes("concat") || filter.includes("import")) {
       evl =
         'bad code big no no';
     } else {
@@ -114,6 +114,18 @@ client.on('message', async message => {
         evl = e;
       }
     }
+    var evalEmbed = new Discord.MessageEmbed()
+      .setColor('#000000')
+      .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
+      .addField('Output', '```js\n' + require("util").inspect(evl).substr(0, 1024 - 12) + '\n```')
+      .setFooter('Time to execute:' + '...');
+    message.channel.send(evalEmbed).then(evalmsg => {
+      let exetime = evalmsg.createdTimestamp - message.createdTimestamp
+      evalEmbed.setFooter("Time to execute: " + exetime + "ms")
+      evalmsg.edit(evalEmbed)
+    })
+    console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
+  }
 
     var evalEmbed = new Discord.MessageEmbed()
       .setColor('#000000')
