@@ -48,7 +48,6 @@ client.on('message', async (message) => {
   // Ping command
   if (content.startsWith(';ping')) {
     const latency = Date.now() - message.createdTimestamp
-    let failed = false;
     const api = Math.round(client.ws.ping)
     const pinginfo = new Discord.MessageEmbed()
       .setDescription(mentionuser + ' [Pong!](' + messagelink + ')' + "\n**Latency:** " + latency + "ms" + "\n" + "**API:** " + api + "ms")
@@ -72,6 +71,7 @@ client.on('message', async (message) => {
 
   if (content.startsWith(';eval')) {
     const timestamp = Date.now();
+    let failed = false;
     let args = message.content
       .substring(prefix.length)
       .trim()
