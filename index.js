@@ -102,7 +102,7 @@ client.on('message', async (message) => {
       { microtaskMode: "afterEvaluate" });
 
       try {
-        evl = vm.runInContext(func, { filename: "eval", timeout: 5000 });
+        evl = vm.runInContext(func, context, { filename: "eval", timeout: 5000 });
       } catch (e) {
         evl = e;
       }
