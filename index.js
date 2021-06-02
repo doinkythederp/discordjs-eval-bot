@@ -86,6 +86,8 @@ client.on('message', async (message) => {
         'bad code big no no';
     } else {
 
+      const timestamp = Date.now();
+
       const context = vm.createContext({
         Discord,
         client,
@@ -110,16 +112,14 @@ client.on('message', async (message) => {
       }
     }
 
+    const exetime = timestamp - Date.now()
+
     const evalEmbed = new Discord.MessageEmbed()
       .setColor('#000000')
       .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
       .addField('Output', '```js\n' + require("util").inspect(evl).substr(0, 1024 - 12) + '\n```')
-      .setFooter('Time to execute:' + '...');
-    message.channel.send(evalEmbed).then(evalmsg => {
-      let exetime = evalmsg.createdTimestamp - message.createdTimestamp
-      evalEmbed.setFooter("Time to execute: " + exetime + "ms")
-      evalmsg.edit(evalEmbed)
-    })
+      .setFooter(!failed ? "Time to execute: " + exetime + "ms" : "Stopped due to uncaught error: " + exetime + "ms");
+    message.channel.send(evalEmbed);
     console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
   }
 });
