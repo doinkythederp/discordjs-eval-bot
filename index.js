@@ -119,7 +119,7 @@ client.on('message', async (message) => {
       }
     }
 
-    const exetime = timestamp - Date.now()
+    const exetime = Date.now() - timestamp;
 
     const evalEmbed = new Discord.MessageEmbed()
       .setColor('#000000')
