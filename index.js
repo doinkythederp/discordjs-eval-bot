@@ -20,8 +20,8 @@ const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION']
 const fetch = require("node-fetch");
 const asyncEval = require("./worker");
 client.on('ready', () => {
-  client.channels.cache.get("795366538370088973").send("Bot refreshed!")
   console.log(`Logged in as ${client.user.tag}!`);
+  client.channels.cache.get("795366538370088973").send("Bot refreshed!");
 });
 
 client.on('message', async (message) => {
