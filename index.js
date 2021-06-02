@@ -120,10 +120,10 @@ client.on('message', async (message) => {
       .addField('Output', '```js\n' + require("util").inspect(evl).substr(0, 1024 - 12) + '\n```')
       .setFooter(!failed ? "Time to execute: " + exetime + "ms" : "Stopped due to uncaught error: " + exetime + "ms");
     message.channel.send(evalEmbed);
-    
+
     console.log(message.author.tag + ' Server: ' + message.guild.name);
     console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' '));
-    console.log(message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl);
+    console.log(message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + require("util").inspect(evl).substr(0, 1024 - 12));
     console.log('----------------------------');
   }
 });
