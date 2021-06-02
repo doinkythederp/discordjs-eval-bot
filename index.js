@@ -75,7 +75,7 @@ client.on('message', async (message) => {
     message.channel.send(helpembed);
   }
 
-  if (content.startsWith('<@!780638562567061536>')) {
+  if (content.startsWith('<@!' + client.user.id + '>')) {
     message.channel.send(helpembed);
   }
 
