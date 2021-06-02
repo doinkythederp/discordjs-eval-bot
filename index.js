@@ -101,49 +101,16 @@ client.on('message', async (message) => {
       },
       { microtaskMode: "afterEvaluate" });
 
+      let failed = false;
       try {
         evl = vm.runInContext(func, context, { filename: "eval", timeout: 5000 });
       } catch (e) {
         evl = e;
+        failed = true;
       }
     }
 
-    if (content.startsWith(';worker')) {
-    let args = message.content
-      .substring(prefix.length)
-      .trim()
-      .split(/ +/g);
-    let func = args.slice(1).join(' ');
-    if (!func)
-      return message.channel.send(
-        "listen, i can't evaluate code without you giving me code after the command"
-      );
-
-    let filter = func.toString()
-    if (filter.includes("token") || filter.includes("concat") || filter.includes("import")) {
-      evl =
-        'bad code big no no';
-    } else {
-      try {
-        evl = await asyncEval({ code: func, context: global.workerContext || {} });
-      } catch (e) {
-        evl = e;
-      }
-    }
-    var evalEmbed = new Discord.MessageEmbed()
-      .setColor('#000000')
-      .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
-      .addField('Output', '```js\n' + require("util").inspect(evl).substr(0, 1024 - 12) + '\n```')
-      .setFooter('Time to execute:' + '...');
-    message.channel.send(evalEmbed).then(evalmsg => {
-      let exetime = evalmsg.createdTimestamp - message.createdTimestamp
-      evalEmbed.setFooter("Time to execute: " + exetime + "ms")
-      evalmsg.edit(evalEmbed)
-    })
-    console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ') + '\n' + message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + evl + '\n----------------------------');
-  }
-
-    var evalEmbed = new Discord.MessageEmbed()
+    const evalEmbed = new Discord.MessageEmbed()
       .setColor('#000000')
       .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
       .addField('Output', '```js\n' + require("util").inspect(evl).substr(0, 1024 - 12) + '\n```')
@@ -163,9 +130,9 @@ client.login()
   // doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
   let token = process.env.DISCORD_TOKEN;
   let destroy = client.destroy;
-  client.destroy = (function() {
+  client.constructor.prototype.destroy = (function() {
     console.log("client destroyed!");
-    destroy.call(client);
+    destroy.call(this);
     process.exit(0);
   });
   setInterval(() => {
