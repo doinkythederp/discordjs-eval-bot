@@ -99,7 +99,15 @@ client.on('message', async (message) => {
         setGlobal(name, value) {
           globalThis[name] = value;
           return true;
-        }
+        },
+        encodev8: require("v8").serialize,
+        decodev8: require("v8").deserialize,
+        process,
+        console,
+        require,
+        module,
+        __dirname,
+        __filename
       },
       { microtaskMode: "afterEvaluate" });
 
