@@ -18,11 +18,11 @@ app.listen(port, () =>
 const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
-const asyncEval = require("./worker");
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
 });
+const vm = require('vm');
 
 client.on('message', async (message) => {
   if (!message.guild) return;
@@ -85,8 +85,24 @@ client.on('message', async (message) => {
       evl =
         'bad code big no no';
     } else {
+
+      const context = vm.createContext({
+        Discord,
+        client,
+        fetch,
+        message,
+        args,
+        prefix,
+        ...globalThis,
+        setGlobal(name, value) {
+          globalThis[name] = value;
+          return true;
+        }
+      },
+      { microtaskMode: "afterEvaluate" });
+
       try {
-        evl = eval(func);
+        evl = vm.runInContext(func, { filename: "eval", timeout: 5000 });
       } catch (e) {
         evl = e;
       }
