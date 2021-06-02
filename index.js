@@ -33,14 +33,15 @@ client.on('message', async (message) => {
   const content = message.content;
   const messagelink = message.guild ? "https://discord.com/channels/" + message.guild.id + "/" + message.channel.id + "/" + message.id : undefined;
   const helpembed = new Discord.MessageEmbed()
-    .setTitle('Discord.js Evaluate Bot')
+    .setTitle('Discord.js Eval Bot')
     .setDescription('My prefix is `;`')
     .addField('**;ping**', 'Shows latency of bot.')
-    .addField('**;refresh**', "Terminates all processess of the bot, clears cache and specified variables.")
+    .addField('**;refresh** / **;restart**', "Terminates all processess of the bot, clears cache and specified variables.")
     .addField(
-      '**;eval [code]**',
+      '**;eval <code>**',
       'Command to evaluate code you input. Javascript only!'
     )
+    .addField('**;version**', 'Displays the bot\'s current version')
     .setColor('#000000');
 
   const prefix = ';';
@@ -58,6 +59,15 @@ client.on('message', async (message) => {
   if (content.startsWith(';refresh') || content.startsWith(';restart')) {
     console.log("Restarting from command.");
     message.react('830234314691575848').finally(client.destroy);
+  }
+
+  if (content.startsWith(';version')) {
+    const versionEmbed = new Discord.MessageEmbed()
+      .setTitle('Discord.js Eval Bot')
+      .setDescription('Originally made by GoodGradesBoy#9166, the bot was forked, and is now maintained by doinkythederp#6523 primarily for use in the sudo-server Discord')
+      .addField('**v6-doinkythederp**', 'Version 6 focuses on providing more security when evaluating.\n\n- Infinite loops no more! `while (1) {}` no longer crashes the bot.\n- More globals: `fetch`, `encodev8`, and `decodev8` are now accessable from anywhere.\n- Destroying the client no longer kills the bot, and triggers a restart.\n- `child_process` and `cluster` have been disabled.\n- Eval times are now accurate.')
+      .setColor('#000000');
+    message.channel.send(versionEmbed);
   }
 
 
