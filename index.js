@@ -48,6 +48,7 @@ client.on('message', async (message) => {
   // Ping command
   if (content.startsWith(';ping')) {
     const latency = Date.now() - message.createdTimestamp
+    let failed = false;
     const api = Math.round(client.ws.ping)
     const pinginfo = new Discord.MessageEmbed()
       .setDescription(mentionuser + ' [Pong!](' + messagelink + ')' + "\n**Latency:** " + latency + "ms" + "\n" + "**API:** " + api + "ms")
@@ -70,6 +71,7 @@ client.on('message', async (message) => {
   }
 
   if (content.startsWith(';eval')) {
+    const timestamp = Date.now();
     let args = message.content
       .substring(prefix.length)
       .trim()
@@ -86,8 +88,6 @@ client.on('message', async (message) => {
         'bad code big no no';
     } else {
 
-      const timestamp = Date.now();
-
       const context = vm.createContext({
         Discord,
         client,
@@ -103,7 +103,6 @@ client.on('message', async (message) => {
       },
       { microtaskMode: "afterEvaluate" });
 
-      let failed = false;
       try {
         evl = vm.runInContext(func, context, { filename: "eval", timeout: 5000 });
       } catch (e) {
