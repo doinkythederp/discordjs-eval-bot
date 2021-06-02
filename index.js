@@ -121,8 +121,8 @@ client.on('message', async (message) => {
     message.channel.send(evalEmbed);
 
     console.log(message.author.tag + ' Server: ' + message.guild.name);
-    console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' '));
-    console.log(message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + require("util").inspect(evl).substr(0, 1024 - 12));
+    console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ').replace(/\n/g, "\n... "));
+    console.log(message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + require("util").inspect(evl).substr(0, 1024 - 12).replace(/\n/g, "\n... "));
     console.log('----------------------------');
   }
 });
