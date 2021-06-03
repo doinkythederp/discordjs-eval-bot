@@ -99,8 +99,8 @@ client.on('message', async (message) => {
         fetch,
         message,
         args,
-        get prefix() { return prefix; },
-        set prefix(v) {
+        prefix,
+        setPrefix(v) {
           prefix = v
         },
         ...globalThis,
