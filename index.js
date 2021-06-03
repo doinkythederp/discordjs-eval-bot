@@ -172,12 +172,12 @@ client.login()
         md.createRequire = (function() {
           throw "bad code big no no";
         });
-        md.createRequire.toString = rqr(path).createRequire.toString
+        md.createRequire.toString = rqr(path).createRequire.toString.bind(createRequire);
         return md;
       }
       return rqr(path);
     });
-    require.toString = rqr.toString
+    require.toString = rqr.toString.bind(rqr);
     return require
   }
   require = convertRequire(require);
