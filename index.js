@@ -63,7 +63,7 @@ client.on('message', async (message) => {
 
   if (content.startsWith(';version')) {
     const versionEmbed = new Discord.MessageEmbed()
-      .setTitle('Discord.js Eval Bot')
+      .setTitle('Discord.js Eval Bot v6')
       .setDescription('Originally made by GoodGradesBoy#9166, the bot was forked, and is now maintained by doinkythederp#6523 primarily for use in the sudo-server Discord')
       .addField('**v6-doinkythederp**', 'Version 6 focuses on providing more security when evaluating.\n\n- Infinite loops no more! `while (1) {}` no longer crashes the bot.\n- More globals: `fetch`, `encodev8`, and `decodev8` are now accessable from anywhere.\n- Destroying the client no longer kills the bot, and triggers a restart.\n- `child_process` and `cluster` have been disabled.\n- Eval times are now accurate.')
       .setColor('#000000');
@@ -108,6 +108,10 @@ client.on('message', async (message) => {
         ...globalThis,
         setGlobal(name, value) {
           globalThis[name] = value;
+          return true;
+        },
+        delGlobal(name) {
+          delete globalThis[name];
           return true;
         },
         encodev8: require("v8").serialize,
