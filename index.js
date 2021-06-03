@@ -99,7 +99,7 @@ client.on('message', async (message) => {
         fetch,
         message,
         args,
-        prefix
+        prefix,
         ...globalThis,
         setGlobal(name, value) {
           globalThis[name] = value;
