@@ -44,10 +44,10 @@ client.on('message', async (message) => {
     .addField('**;version**', 'Displays the bot\'s current version')
     .setColor('#000000');
 
-  const prefix = ';';
+  const prefix = require('./config.json').prefix;
 
   // Ping command
-  if (content.startsWith(';ping')) {
+  if (content.startsWith(prefix + 'ping')) {
     const latency = Date.now() - message.createdTimestamp
     const api = Math.round(client.ws.ping)
     const pinginfo = new Discord.MessageEmbed()
@@ -56,12 +56,12 @@ client.on('message', async (message) => {
     message.channel.send(pinginfo);
   }
 
-  if (content.startsWith(';refresh') || content.startsWith(';restart')) {
+  if (content.startsWith(prefix + 'refresh') || content.startsWith(prefix + 'restart')) {
     console.log("Restarting from command.");
     message.react('830234314691575848').finally(client.destroy);
   }
 
-  if (content.startsWith(';version')) {
+  if (content.startsWith(prefix + 'version')) {
     const versionEmbed = new Discord.MessageEmbed()
       .setTitle('Discord.js Eval Bot v6')
       .setDescription('Originally made by GoodGradesBoy#9166, the bot was forked, and is now maintained by doinkythederp#6523 primarily for use in the sudo-server Discord')
@@ -71,15 +71,11 @@ client.on('message', async (message) => {
   }
 
 
-  if (content.startsWith(';help')) {
+  if (content.startsWith(prefix + 'help') || content.startsWith('<@!' + client.user.id + '>')) {
     message.channel.send(helpembed);
   }
 
-  if (content.startsWith('<@!' + client.user.id + '>')) {
-    message.channel.send(helpembed);
-  }
-
-  if (content.startsWith(';eval')) {
+  if (content.startsWith(prefix + 'eval')) {
     const timestamp = Date.now();
     let failed = false;
     let args = message.content
