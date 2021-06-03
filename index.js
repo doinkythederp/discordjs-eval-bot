@@ -138,7 +138,7 @@ client.on('message', async (message) => {
     const evalEmbed = new Discord.MessageEmbed()
       .setColor('#000000')
       .addField("Input", "```js\n" + args.slice(1).join(' ') + "\n```")
-      .addField('Output', '```js\n' + (!failed ? require("util").inspect(evl).substr(0, 1024 - 15).replace(/\n/g, "\n... ") : evl.toString().substr(0, 1024 - 12)) + '\n```')
+      .addField('Output', '```js\n' + (!failed ? require("util").inspect(evl).substr(0, 1024 - 15) : evl.toString().substr(0, 1024 - 12)) + '\n```')
       .setFooter(!failed ? "Time to execute: " + exetime + "ms" : "Stopped due to uncaught error: " + exetime + "ms");
     message.channel.send(evalEmbed);
 
