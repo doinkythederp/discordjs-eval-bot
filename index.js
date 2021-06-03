@@ -122,7 +122,7 @@ client.on('message', async (message) => {
         __filename,
         queueMicrotask() {
           throw 'queueMicrotask is disabled in this environment. Please use Promises instead.'
-        }
+        },
         mentionuser,
         LeSirH,
         GGB,
