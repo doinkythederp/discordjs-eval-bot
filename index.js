@@ -121,7 +121,10 @@ client.on('message', async (message) => {
         require,
         module,
         __dirname,
-        __filename
+        __filename,
+        queueMicrotask() {
+          throw 'queueMicrotask is disabled in this environment. Please use Promises instead.'
+        }
       },
       { microtaskMode: "afterEvaluate" });
 
