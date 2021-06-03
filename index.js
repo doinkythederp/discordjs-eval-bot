@@ -18,7 +18,7 @@ app.listen(port, () =>
 const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
-const prefix = require('./config.json').prefix;
+var prefix = require('./config.json').prefix;
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
@@ -99,7 +99,10 @@ client.on('message', async (message) => {
         fetch,
         message,
         args,
-        prefix,
+        get prefix() { return prefix; },
+        set prefix(v) {
+          prefix = v
+        },
         ...globalThis,
         setGlobal(name, value) {
           globalThis[name] = value;
@@ -119,10 +122,7 @@ client.on('message', async (message) => {
         __filename,
         queueMicrotask() {
           throw 'queueMicrotask is disabled in this environment. Please use Promises instead.'
-        },
-        setPrefix(v) {
-          prefix = v
-        },
+        }
         mentionuser,
         LeSirH,
         GGB,
