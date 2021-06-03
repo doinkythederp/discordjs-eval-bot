@@ -12,6 +12,7 @@
   "dependencies": {
     "discord.js": "^12.5.1",
     "express": "^4.17.1",
+    "node": "^16.1.0",
     "node-fetch": "^2.6.1",
     "repldb": "^1.0.2"
   }

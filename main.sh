@@ -7,5 +7,5 @@ git fetch -q
 git reset -q origin/master --hard
 sleep 3s;
 # Main code
-node .
+npx node .
 done
