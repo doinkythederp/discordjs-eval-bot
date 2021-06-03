@@ -100,12 +100,7 @@ client.on('message', async (message) => {
         fetch,
         message,
         args,
-        get prefix() {
-          return prefix
-        },
-        set prefix(v) {
-          prefix = v;
-        },
+        prefix
         ...globalThis,
         setGlobal(name, value) {
           globalThis[name] = value;
