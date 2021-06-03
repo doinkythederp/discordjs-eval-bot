@@ -18,6 +18,7 @@ app.listen(port, () =>
 const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
+const prefix = require('./config.json').prefix;
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
@@ -34,17 +35,15 @@ client.on('message', async (message) => {
   const messagelink = message.guild ? "https://discord.com/channels/" + message.guild.id + "/" + message.channel.id + "/" + message.id : undefined;
   const helpembed = new Discord.MessageEmbed()
     .setTitle('Discord.js Eval Bot')
-    .setDescription('My prefix is `;`')
-    .addField('**;ping**', 'Shows latency of bot.')
-    .addField('**;refresh** / **;restart**', "Terminates all processess of the bot, clears cache and specified variables.")
+    .setDescription('My prefix is `' + prefix + '`')
+    .addField('**' + prefix + 'ping**', 'Shows latency of bot.')
+    .addField('**' + prefix + 'refresh** / **' + prefix + 'restart**', "Terminates all processess of the bot, clears cache and specified variables.")
     .addField(
-      '**;eval <code>**',
+      '**' + prefix + 'eval <code>**',
       'Command to evaluate code you input. Javascript only!'
     )
-    .addField('**;version**', 'Displays the bot\'s current version')
+    .addField('**' + prefix + 'version**', 'Displays the bot\'s current version')
     .setColor('#000000');
-
-  const prefix = require('./config.json').prefix;
 
   // Ping command
   if (content.startsWith(prefix + 'ping')) {
@@ -120,7 +119,15 @@ client.on('message', async (message) => {
         __filename,
         queueMicrotask() {
           throw 'queueMicrotask is disabled in this environment. Please use Promises instead.'
-        }
+        },
+        setPrefix(v) {
+          prefix = v
+        },
+        mentionuser,
+        LeSirH,
+        GGB,
+        messagelink,
+        content
       },
       { microtaskMode: "afterEvaluate" });
 
