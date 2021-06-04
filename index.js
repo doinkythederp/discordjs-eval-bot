@@ -18,7 +18,9 @@ app.listen(port, () =>
 const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
-var prefix = require('./config.json').prefix;
+const fs = require('fs');
+var prefix = fs.readFileSync(__dirname + '/prefix.txt', "utf8");
+setInterval(() => fs.writeFileSync(__dirname + '/prefix.txt', "prefix"), 2000);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
