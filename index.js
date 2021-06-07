@@ -128,7 +128,8 @@ client.on('message', async (message) => {
         LeSirH,
         GGB,
         messagelink,
-        content
+        content,
+        Buffer
       },
       { microtaskMode: "afterEvaluate" });
 
