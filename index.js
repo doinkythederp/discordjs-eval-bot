@@ -19,8 +19,6 @@ const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
 const fs = require('fs');
-var prefix = fs.readFileSync(__dirname + '/prefix.txt', "utf8");
-setInterval(() => fs.writeFileSync(__dirname + '/prefix.txt', "prefix"), 2000);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
@@ -28,7 +26,6 @@ client.on('ready', () => {
 const vm = require('vm');
 
 client.on('message', async (message) => {
-  if (!message.guild) return;
   const thisBotSucks = 'no it does not'
   const LeSirH = '1';
   const GGB = '1';
@@ -151,7 +148,7 @@ client.on('message', async (message) => {
       .setFooter(!failed ? "Time to execute: " + exetime + "ms" : "Stopped due to uncaught error: " + exetime + "ms");
     message.channel.send(evalEmbed);
 
-    console.log(message.author.tag + ' Server: ' + message.guild.name);
+    console.log(message.author.tag + ' Server: ' + message.guild?.name);
     console.log(message.author.tag + ' 𝙄𝙉𝙋𝙐𝙏   ' + args.slice(1).join(' ').replace(/\n/g, "\n... "));
     console.log(message.author.tag + " 𝙊𝙐𝙏𝙋𝙐𝙏  " + (!failed ? require("util").inspect(evl).substr(0, 1024 - 15).replace(/\n/g, "\n... ") : evl.toString().substr(0, 1024 - 15)));
     console.log('----------------------------');
