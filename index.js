@@ -19,6 +19,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
 const fs = require('fs');
+var prefix = ';'
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
