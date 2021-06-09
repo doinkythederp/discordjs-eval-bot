@@ -129,7 +129,9 @@ client.on('message', async (message) => {
         GGB,
         messagelink,
         content,
-        Buffer
+        Buffer,
+        URL,
+        URLSearchParams
       },
       { microtaskMode: "afterEvaluate" });
 
