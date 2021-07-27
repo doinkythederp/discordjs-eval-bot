@@ -146,7 +146,6 @@ client.on('message', async (message) => {
         process,
         console,
         require,
-        module,
         __dirname,
         __filename,
         queueMicrotask() {
