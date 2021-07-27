@@ -23,7 +23,7 @@ var client;
     
     if (typeof data === 'function') {
       let infected = (...args) => {
-        let bound = data.hasOwnProperty('prototype') ? data.bind(parent) : data;
+        let bound = !data.hasOwnProperty('prototype') ? data.bind(parent) : data;
         return infect(bound(...args));
       };
       infected.toString = infected.toString.bind(data);
