@@ -16,38 +16,7 @@ app.listen(port, () =>
 
 // Bot code begins here.
 const Discord = require('discord.js');
-var client;
-
-  const infect = (data, disallowed, replacement, parent) => {
-    if (data === disallowed) return replacement;
-    
-    if (typeof data === 'function') {
-      let infected = (...args) => {
-        let bound = data.bind(parent);
-        return infect(bound(...args));
-      };
-      infected.toString = infected.toString.bind(data);
-      return infected;
-    }
-    
-    if (typeof data === 'object') {
-      return new Proxy(data, {
-        get() {
-          let result = Reflect.get(...arguments);
-          return infect(result, disallowed, replacement, data);
-        },
-        getOwnPropertyDescriptor() {
-          let result = Reflect.getOwnPropertyDescriptor(...arguments);
-          return infect(result, disallowed, replacement, data);
-        }
-      });
-    }
-    
-    return data;
-  };
-  client = infect(new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }), process.env.DISCORD_TOKEN, 'p4ssw0rd');
-  Object.defineProperty(process.env, "DISCORD_TOKEN", { value: 'p4ssw0rd' });
-
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
 const fetch = require("node-fetch");
 const fs = require('fs');
 var prefix = ';'
@@ -120,7 +89,7 @@ client.on('message', async (message) => {
       );
 
     let filter = func.toString()
-    if (filter.includes("import")) {
+    if (filter.includes("token") || filter.includes("concat") || filter.includes("import")) {
       evl =
         'bad code big no no';
     } else {
@@ -129,7 +98,7 @@ client.on('message', async (message) => {
         Discord,
         client,
         fetch,
-        message: infect(message),
+        message,
         args,
         prefix,
         setPrefix(v) {
@@ -149,6 +118,7 @@ client.on('message', async (message) => {
         process,
         console,
         require,
+        module,
         __dirname,
         __filename,
         queueMicrotask() {
@@ -195,14 +165,13 @@ client.login()
   // doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
   let token = process.env.DISCORD_TOKEN;
   let destroy = client.destroy;
-  const messageEvent = client._events.message;
   client.destroy = (function() {
     console.log("client destroyed!");
     destroy.call(this);
     process.exit(0);
   });
   setInterval(() => {
-    if (false) client.destroy();
+    if (!client._events.message || client.token !== token) process.exit();
   }, 1000);
   function convertRequire(require) {
     let rqr = require
