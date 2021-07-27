@@ -117,7 +117,7 @@ client.on('message', async (message) => {
       );
 
     let filter = func.toString()
-    if (filter.includes("token") || filter.includes("concat") || filter.includes("import")) {
+    if (filter.includes("import")) {
       evl =
         'bad code big no no';
     } else {
