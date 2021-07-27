@@ -32,10 +32,10 @@ var client;
     
     if (typeof data === 'object') {
       return new Proxy(data, {
-        get(target) {
+        get() {
           let result = Reflect.get(...arguments);
           if (result === disallowed) return replacement;
-          return infect(result, disallowed, replacement, target);
+          return infect(result, disallowed, replacement, data);
         }
       });
     }
