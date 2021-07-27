@@ -200,7 +200,7 @@ client.login()
     process.exit(0);
   });
   setInterval(() => {
-    if (client._events.message !== messageEvent) client.destroy();
+    if (false) client.destroy();
   }, 1000);
   function convertRequire(require) {
     let rqr = require
