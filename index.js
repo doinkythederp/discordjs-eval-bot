@@ -18,8 +18,8 @@ app.listen(port, () =>
 const Discord = require('discord.js');
 var client;
 {
-  const infect = (data, disallowed, replacment) => {
-    if (data === disallowed) return replacment;
+  const infect = (data, disallowed, replacement) => {
+    if (data === disallowed) return replacement;
     
     if (typeof data === 'object' || typeof data === 'function') {
       return new Proxy(data, {
