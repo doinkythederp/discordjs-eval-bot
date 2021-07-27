@@ -24,7 +24,7 @@ var client;
     if (typeof data === 'object' || typeof data === 'function') {
       return new Proxy(data, {
         get(target, prop) {
-          let result === Reflect.get(...arguments);
+          let result = Reflect.get(...arguments);
           if (result === disallowed) return replacement;
           return infect(result, disallowed, replacement);
         },
