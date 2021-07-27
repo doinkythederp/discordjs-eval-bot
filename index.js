@@ -34,7 +34,10 @@ var client;
       return new Proxy(data, {
         get() {
           let result = Reflect.get(...arguments);
-          if (result === disallowed) return replacement;
+          return infect(result, disallowed, replacement, data);
+        },
+        getOwnPropertyDescriptor() {
+          let result = Reflect.getOwnPropertyDescriptor(...arguments);
           return infect(result, disallowed, replacement, data);
         }
       });
