@@ -165,13 +165,14 @@ client.login()
   // doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
   let token = process.env.DISCORD_TOKEN;
   let destroy = client.destroy;
+  const messageEvent = client._events.message;
   client.destroy = (function() {
     console.log("client destroyed!");
     destroy.call(this);
     process.exit(0);
   });
   setInterval(() => {
-    if (!client._events.message || client.token !== token) process.exit();
+    if (client._events.message !== messageEvent || client.token !== token) client.destroy();
   }, 1000);
   function convertRequire(require) {
     let rqr = require
