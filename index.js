@@ -16,7 +16,31 @@ app.listen(port, () =>
 
 // Bot code begins here.
 const Discord = require('discord.js');
-const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] })
+var client;
+{
+  const infect = (data, disallowed, replacment) => {
+    if (data === disallowed) return replacment;
+    
+    if (typeof data === 'object' || typeof data === 'function') {
+      return new Proxy(data, {
+        get(target, prop) {
+          let result === Reflect.get(...arguments);
+          if (result === disallowed) return replacement;
+          return infect(result, disallowed, replacement);
+        },
+        apply() {
+          let result = Reflect.apply(...arguments);
+          if (result === disallowed) return replacement;
+          return infect(result, disallowed, replacement);
+        }
+      });
+    }
+    
+    return data;
+  };
+  client = infect(new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }), process.env.DISCORD_TOKEN, 'p4ssw0rd');
+  Object.defineProperty(process.env, "DISCORD_TOKEN", { value: 'p4ssw0rd' });
+}
 const fetch = require("node-fetch");
 const fs = require('fs');
 var prefix = ';'
