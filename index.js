@@ -28,7 +28,8 @@ var client;
           if (result === disallowed) return replacement;
           return infect(result, disallowed, replacement);
         },
-        apply() {
+        apply(target) {
+          console.log(target)
           let result = Reflect.apply(...arguments);
           if (result === disallowed) return replacement;
           return infect(result, disallowed, replacement);
