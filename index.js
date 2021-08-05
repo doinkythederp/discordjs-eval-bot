@@ -25,6 +25,7 @@ client.on('ready', () => {
   client.channels.cache.get("795366538370088973").send("Bot refreshed!");
 });
 const vm = require('vm');
+const child_process = require("child_process");
 
 client.on('message', async (message) => {
   const thisBotSucks = 'no it does not'
@@ -131,7 +132,11 @@ client.on('message', async (message) => {
         content,
         Buffer,
         URL,
-        URLSearchParams
+        URLSearchParams,
+        npmInstall(what) {
+          if (!message.author.id !== "720347983052275715") return null;
+          return child_process.execSync("npm i --no-save " + what).toString();
+        }
       },
       { microtaskMode: "afterEvaluate" });
 
