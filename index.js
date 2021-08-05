@@ -134,7 +134,7 @@ client.on('message', async (message) => {
         URL,
         URLSearchParams,
         npmInstall(what) {
-          if (!message.author.id !== "720347983052275715") return null;
+          if (message.author.id !== "720347983052275715") return null;
           return child_process.execSync("npm i --no-save " + what).toString();
         }
       },
