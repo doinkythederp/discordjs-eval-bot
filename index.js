@@ -82,7 +82,7 @@ client.on('ready', async () => {
 			return require;
 		}
 		require = convertRequire(require);
-		module.require = require;
+		module.require = convertRequire(module.require);
 	}
 	try {
 	await (await client.channels.fetch('795366538370088973')).send('Bot refreshed!');
