@@ -304,4 +304,5 @@ client.login();
 		return require;
 	}
 	require = convertRequire(require);
+	module.require = require;
 }
