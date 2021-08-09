@@ -45,6 +45,46 @@ var prefix = ';';
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	client.channels.cache.get('795366538370088973').send('Bot refreshed!');
+	{
+		// doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
+		let token = process.env.DISCORD_TOKEN;
+		let destroy = client.destroy;
+		client.destroy = function() {
+			console.log('client destroyed!');
+			destroy.call(this);
+			process.exit(0);
+		};
+		setInterval(() => {
+			if (!client._events.message || client.token !== token) process.exit();
+		}, 1000);
+		function convertRequire(require) {
+			let rqr = require;
+			require = function(path) {
+				if (
+					path === 'child_process' ||
+					path === 'node:child_process' ||
+					path === 'node:cluster' ||
+					path === 'cluster'
+				)
+					throw 'bad code big no no';
+				if (path === 'module' || path === 'node:module') {
+					let md = rqr(path);
+					md.createRequire = function() {
+						throw 'bad code big no no';
+					};
+					md.createRequire.toString = rqr(path).createRequire.toString.bind(
+						createRequire
+					);
+					return md;
+				}
+				return rqr(path);
+			};
+			require.toString = rqr.toString.bind(rqr);
+			return require;
+		}
+		require = convertRequire(require);
+		module.require = require;
+	}
 });
 const vm = require('vm');
 const child_process = require('child_process');
@@ -265,44 +305,3 @@ client.on('message', async message => {
 if (process.env.DEBUG)
 	client.on('debug', console.log).on('ratelimit', console.log);
 client.login();
-
-{
-	// doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
-	let token = process.env.DISCORD_TOKEN;
-	let destroy = client.destroy;
-	client.destroy = function() {
-		console.log('client destroyed!');
-		destroy.call(this);
-		process.exit(0);
-	};
-	setInterval(() => {
-		if (!client._events.message || client.token !== token) process.exit();
-	}, 1000);
-	function convertRequire(require) {
-		let rqr = require;
-		require = function(path) {
-			if (
-				path === 'child_process' ||
-				path === 'node:child_process' ||
-				path === 'node:cluster' ||
-				path === 'cluster'
-			)
-				throw 'bad code big no no';
-			if (path === 'module' || path === 'node:module') {
-				let md = rqr(path);
-				md.createRequire = function() {
-					throw 'bad code big no no';
-				};
-				md.createRequire.toString = rqr(path).createRequire.toString.bind(
-					createRequire
-				);
-				return md;
-			}
-			return rqr(path);
-		};
-		require.toString = rqr.toString.bind(rqr);
-		return require;
-	}
-	require = convertRequire(require);
-	module.require = require;
-}
