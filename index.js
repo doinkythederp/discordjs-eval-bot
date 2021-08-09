@@ -54,7 +54,7 @@ client.on('ready', async () => {
 			process.exit(0);
 		};
 		setInterval(() => {
-			if (!client._events.message || client.token !== token) process.exit();
+			if (!client._events.messageCreate || client.token !== token) process.exit();
 		}, 1000);
 		function convertRequire(require) {
 			let rqr = require;
