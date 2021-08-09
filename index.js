@@ -42,9 +42,8 @@ const client = new Discord.Client({
 const fetch = require('node-fetch');
 const fs = require('fs');
 var prefix = ';';
-client.on('ready', () => {
+client.on('ready', async () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-	client.channels.cache.get('795366538370088973').send('Bot refreshed!');
 	{
 		// doinkythederp's 100% secure security block for stuff because of circuit crashing the bot
 		let token = process.env.DISCORD_TOKEN;
@@ -85,6 +84,9 @@ client.on('ready', () => {
 		require = convertRequire(require);
 		module.require = require;
 	}
+	try {
+	await (await client.channels.fetch('795366538370088973')).send('Bot refreshed!');
+	} catch {}
 });
 const vm = require('vm');
 const child_process = require('child_process');
