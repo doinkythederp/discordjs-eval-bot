@@ -37,7 +37,8 @@ const client = new Discord.Client({
 		'DIRECT_MESSAGES',
 		'DIRECT_MESSAGE_REACTIONS',
 		'DIRECT_MESSAGE_TYPING'
-	]
+	],
+	rejectOnRateLimit: ['/']
 });
 const fetch = require('node-fetch');
 const fs = require('fs');
