@@ -91,7 +91,7 @@ client.on('ready', async () => {
 const vm = require('vm');
 const child_process = require('child_process');
 
-client.on('message', async message => {
+client.on('messageCreate', async message => {
 	const thisBotSucks = 'no it does not';
 	const LeSirH = '1';
 	const GGB = '1';
