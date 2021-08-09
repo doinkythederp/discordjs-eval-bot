@@ -124,7 +124,7 @@ client.on('messageCreate', async message => {
 	if (content.startsWith(prefix + 'ping')) {
 		const latency = Date.now() - message.createdTimestamp;
 		const api = Math.round(client.ws.ping);
-		const pinginfo = new Discord.MessageEmbed()
+		const pingInfo = new Discord.MessageEmbed()
 			.setDescription(
 				mentionuser +
 					' [Pong!](' +
@@ -139,7 +139,7 @@ client.on('messageCreate', async message => {
 					'ms'
 			)
 			.setColor('#000000');
-		message.channel.send(pinginfo);
+		message.channel.send({ embeds: [pingInfo] });
 	}
 
 	if (
@@ -162,14 +162,14 @@ client.on('messageCreate', async message => {
 				'Version 6 focuses on providing more security when evaluating.\n\n- Infinite loops no more! `while (1) {}` no longer crashes the bot.\n- More globals: `fetch`, `encodev8`, and `decodev8` are now accessable from anywhere.\n- Destroying the client no longer kills the bot, and triggers a restart.\n- `child_process` and `cluster` have been disabled.\n- Eval times are now accurate.'
 			)
 			.setColor('#000000');
-		message.channel.send(versionEmbed);
+		message.channel.send({ embeds: [versionEmbed] });
 	}
 
 	if (
 		content.startsWith(prefix + 'help') ||
 		content.startsWith('<@!' + client.user.id + '>')
 	) {
-		message.channel.send(helpembed);
+		message.channel.send({ embeds: [helpEmbed] });
 	}
 
 	if (content.startsWith(prefix + 'eval')) {
@@ -279,7 +279,7 @@ client.on('messageCreate', async message => {
 					? 'Time to execute: ' + exetime + 'ms'
 					: 'Stopped due to uncaught error: ' + exetime + 'ms'
 			);
-		message.channel.send(evalEmbed);
+		message.channel.send({ embeds: [evalEmbed] });
 
 		console.log(message.author.tag + ' Server: ' + message.guild?.name);
 		console.log(
