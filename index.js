@@ -106,7 +106,7 @@ client.on('messageCreate', async message => {
 		  '/' +
 		  message.id
 		: undefined;
-	const helpembed = new Discord.MessageEmbed()
+	const helpEmbed = new Discord.MessageEmbed()
 		.setTitle('Discord.js Eval Bot')
 		.setDescription('My prefix is `' + prefix + '`')
 		.addField('**' + prefix + 'ping**', 'Shows latency of bot.')
