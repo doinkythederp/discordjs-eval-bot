@@ -1,3 +1,11 @@
+const { isMainThread, parentPort, Worker } = require('worker_threads');
+if (!isMainThread) {
+  {
+    const { WORKER_TOKEN } = process.env;
+    setInterval(() => {
+      parentPort.postMessage({ token: WORKER_TOKEN, ping: true });
+    }, 2000);
+  }
 //These first few lines are for running express server.
 const express = require('express');
 const app = express();
@@ -84,6 +92,7 @@ client.on('ready', async () => {
 		}
 		require = convertRequire(require);
 		module.require = convertRequire(module.require);
+    delete process.env;
 	}
 	try {
 	await (await client.channels.fetch('795366538370088973')).send('Bot refreshed!');
@@ -190,7 +199,9 @@ client.on('messageCreate', async message => {
 		if (
 			filter.includes('token') ||
 			filter.includes('concat') ||
-			filter.includes('import')
+			filter.includes('import') ||
+      message.author.id === "601445697362984970" ||
+      message.author.id === "611549463252828180"
 		) {
 			evl = 'bad code big no no';
 		} else {
@@ -282,7 +293,7 @@ client.on('messageCreate', async message => {
 			);
 		message.channel.send({ embeds: [evalEmbed] });
 
-		console.log(message.author.tag + ' Server: ' + message.guild?.name);
+		console.log(message.author.tag + ' Server: ' + (message.guild ? message.guild.name : null));
 		console.log(
 			message.author.tag +
 				' 𝙄𝙉𝙋𝙐𝙏   ' +
@@ -308,3 +319,40 @@ client.on('messageCreate', async message => {
 if (process.env.DEBUG)
 	client.on('debug', console.log).on('ratelimit', console.log);
 client.login();
+} else {
+  let worker, workerInterval, lastPing;
+  const workerSource = require('fs').readFileSync('./index.js', 'utf8');
+  createWorker();
+
+  function createWorker() {
+    const WORKER_TOKEN = Math.random().toString();
+    worker = new Worker(workerSource, {
+      env: {
+        DISCORD_TOKEN: process.env.DISCORD_TOKEN,
+        WORKER_TOKEN
+      },
+      eval: true
+    });
+    worker
+      .on('online', () => {
+        lastPing = Date.now();
+        workerInterval = setInterval(() => {
+          if (lastPing < Date.now() - 8000) {
+            clearInterval(workerInterval);
+            workerInterval = undefined;
+            worker.terminate();
+          }
+        }, 8000);
+      })
+      .on('message', (data) => {
+        if (data && data.ping && data.token === WORKER_TOKEN) lastPing = Date.now();
+      })
+      .on('exit', () => {
+        if (workerInterval) {
+          clearInterval(workerInterval);
+          workerInterval = undefined;
+        }
+        createWorker();
+      });
+  }
+}
