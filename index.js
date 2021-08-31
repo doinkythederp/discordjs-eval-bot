@@ -337,7 +337,7 @@ client.login();
       .on('online', () => {
         lastPing = Date.now();
         workerInterval = setInterval(() => {
-          if (lastPing < Date.now() - 8000) {
+          if (lastPing < Date.now() - 16000) {
             clearInterval(workerInterval);
             workerInterval = undefined;
             worker.terminate();
